@@ -1,0 +1,38 @@
+specVersion: 2.0.0
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Silo-Replanted
+    network: mainnet
+    source:
+      address: "0xC1E088fC1323b20BCBee9bd1B9fC9546db5624C5"
+      abi: Beanstalk
+      startBlock: 14602789
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Silo-Replanted
+      abis:
+        - name: Beanstalk
+          file: ./abis/Beanstalk-Replanted.json
+      eventHandlers:
+        - event: AddDeposit(indexed address,indexed address,uint32,uint256,uint256)
+          handler: handleAddDeposit
+        - event: AddWithdrawal(indexed address,indexed address,uint32,uint256)
+          handler: handleAddWithdrawal
+        - event: RemoveDeposit(indexed address,indexed address,uint32,uint256)
+          handler: handleRemoveDeposit
+        - event: RemoveDeposits(indexed address,indexed address,uint32[],uint256[],uint256)
+          handler: handleRemoveDeposits
+        - event: RemoveWithdrawal(indexed address,indexed address,uint32,uint256)
+          handler: handleRemoveWithdrawal
+        - event: RemoveWithdrawals(indexed address,indexed address,uint32[],uint256)
+          handler: handleRemoveWithdrawals
+        - event: SeedsBalanceChanged(indexed address,int256)
+          handler: handleSeedsBalanceChanged
+        - event: StalkBalanceChanged(indexed address,int256,int256)
+          handler: handleStalkBalanceChanged
+      file: ./src/SiloHandler.ts
